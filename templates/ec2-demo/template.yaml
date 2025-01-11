@@ -71,6 +71,7 @@ spec:
     - id: publish
       name: Publishing Details
       action: publish:github
+      if: ${{ parameters.action == 'apply' }}
       input:
         allowedHosts: ['github.com']
         description: This repo is to create an ec2 instance ${{ parameters.InstanceName }} using backstage.
