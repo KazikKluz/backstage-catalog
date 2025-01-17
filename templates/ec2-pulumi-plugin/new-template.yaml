@@ -1,0 +1,22 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: ec2-pulumi-plugin
+  title: EC2 Pulumi Plugin
+  description: |
+    A template for creating a new project for EC2 with Pulumi Plugin.
+  tags:
+  - pulumi
+  - ec2
+spec:
+  steps:
+  - id: pulumi-new-component
+    name: Cookie cut the component Pulumi project
+    action: pulumi:new
+    input:
+      name: "${{ parameters.component_id }}-infrastructure"
+      description: ${{ parameters.description | dump }}
+      organization: KazikKluz
+      stack: ${{ parameters.stack }}
+      template: "https://github.com/KazikKluz/aws-ec2-pulumi"
+      folder: .

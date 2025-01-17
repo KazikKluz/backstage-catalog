@@ -1,0 +1,25 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: ec2-pulumi-plugin-up
+  title: EC2 Pulumi Plugin Up
+  description: |
+    A template for creating a new EC2 Pulumi Plugin.
+  tags:
+  - pulumi
+  - ec2
+spec:
+  steps:
+  - id: pulumi-deploy-infrastructure
+    name: Deploy the infrastructure using Pulumi CLI
+    action: pulumi:up
+    input:
+      deployment: false
+      name: "${{ parameters.component_id }}-infrastructure"
+      repoUrl: "https://github.com/${{ (parameters.repoUrl | parseRepoUrl)['owner'] }}/${{ (parameters.repoUrl | parseRepoUrl)['repo'] }}"
+      repoProjectPath: .
+      organization: KazikKluz
+      outputs:
+      - public_ip
+      - public_dns
+      stack: ${{ parameters.stack }}
