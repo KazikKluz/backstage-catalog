@@ -14,9 +14,9 @@ spec:
   parameters:
     - title: EC2 Instance Creation
       required:
-         - StackName
+         - stack
       properties:
-        StackName:
+        stack:
           title: Stack Name.
           type: string
           description: Name of the Stack to be created.
