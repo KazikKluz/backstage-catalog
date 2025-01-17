@@ -9,6 +9,8 @@ metadata:
   - pulumi
   - ec2
 spec:
+  owner: user:KazikKluz
+  type: service
   steps:
   - id: pulumi-new-component
     name: Cookie cut the component Pulumi project
