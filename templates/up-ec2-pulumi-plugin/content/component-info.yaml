@@ -1,0 +1,13 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ${{ values.name | dump }}
+  annotations:
+    github.com/project-slug: KazikKluz/aws-ec2-pulumi # Change the value to your github repo 
+    pulumi.com/project-slug: KazikKluz/aws-ec2-pulumi/dev
+  title: 'Creation of EC2 Instance with Pulumi Plugin' # you can give any title
+  description: An example of a EC2 Instance Creation with Pulumi Plugin. # Change Description accordingly
+spec:
+  type: service
+  owner: user:KazikKluz
+  lifecycle: experimental
