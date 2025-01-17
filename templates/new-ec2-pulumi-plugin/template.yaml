@@ -11,6 +11,18 @@ metadata:
 spec:
   owner: user:KazikKluz
   type: service
+  parameters:
+    - title: EC2 Instance Creation
+      required:
+         - StackName
+      properties:
+        StackName:
+          title: Stack Name.
+          type: string
+          description: Name of the Stack to be created.
+          ui:autofocus: true
+          ui:options:
+            rows: 5
   steps:
   - id: pulumi-new-component
     name: Cookie cut the component Pulumi project
