@@ -36,9 +36,9 @@ spec:
     name: Deploy the infrastructure using Pulumi CLI
     action: pulumi:up
     input:
-      deployment: false
+      deployment: true
       name: "${{ parameters.component_id }}"
-      repoUrl: "https://github.com/${{ (parameters.repoUrl | parseRepoUrl)['owner'] }}/${{ (parameters.repoUrl | parseRepoUrl)['repo'] }}"
+      repoUrl: "https://github.com/KazikKluz/aws-ec2-pulumi"
       repoProjectPath: .
       organization: KazikKluz
       outputs:
