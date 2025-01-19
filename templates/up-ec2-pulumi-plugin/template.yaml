@@ -36,7 +36,7 @@ spec:
     name: Deploy the infrastructure using Pulumi CLI
     action: pulumi:up
     input:
-      preRunCommands: ["cd ../../app/pulumi"]
+      preRunCommands: ["cd /tmp/${{ parameters.component_id }}-infrastructure"]
       deployment: false
       name: "${{ parameters.component_id }}"
       repoUrl: "https://github.com/KazikKluz/aws-ec2-pulumi/tree/master"
