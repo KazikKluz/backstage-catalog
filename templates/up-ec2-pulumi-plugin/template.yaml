@@ -38,7 +38,7 @@ spec:
     input:
       deployment: true
       name: "${{ parameters.component_id }}"
-      repoUrl: "https://github.com/KazikKluz/aws-ec2-pulumi"
+      repoUrl: "https://github.com/KazikKluz/aws-ec2-pulumi/tree/master"
       repoProjectPath: .
       organization: KazikKluz
       outputs:
