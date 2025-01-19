@@ -15,11 +15,19 @@ spec:
     - title: EC2 Instance Creation
       required:
          - stack
+         - component_id
       properties:
         stack:
           title: Stack Name.
           type: string
           description: Name of the Stack to be used.
+          ui:autofocus: true
+          ui:options:
+            rows: 5
+        component_id:
+          title: Component ID
+          type: string
+          description: ID of the component to be used.
           ui:autofocus: true
           ui:options:
             rows: 5
