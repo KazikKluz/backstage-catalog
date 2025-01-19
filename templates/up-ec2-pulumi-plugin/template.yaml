@@ -45,4 +45,3 @@ spec:
       - public_ip
       - public_dns
       stack: ${{ parameters.stack }}
-      folder: /app
