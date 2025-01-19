@@ -29,7 +29,7 @@ spec:
     action: pulumi:up
     input:
       deployment: false
-      name: "${{ parameters.component_id }}-infrastructure"
+      name: "${{ parameters.component_id }}"
       repoUrl: "https://github.com/${{ (parameters.repoUrl | parseRepoUrl)['owner'] }}/${{ (parameters.repoUrl | parseRepoUrl)['repo'] }}"
       repoProjectPath: .
       organization: KazikKluz
