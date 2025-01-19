@@ -36,10 +36,9 @@ spec:
     name: Cookie cut the component Pulumi project
     action: pulumi:new
     input:
-      preRunCommands: ["mkdir -p /tmp/${{ parameters.component_id }}-infrastructure"]
       name: "${{ parameters.component_id }}-infrastructure"
       description: ${{ parameters.description | dump }}
       organization: KazikKluz
       stack: ${{ parameters.stack }}
       template: "https://github.com/KazikKluz/aws-ec2-pulumi"
-      folder: "/tmp/${{ parameters.component_id }}-infrastructure"
+      folder: /app/pulumi
