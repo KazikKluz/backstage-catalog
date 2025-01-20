@@ -5,6 +5,7 @@ metadata:
   annotations:
     github.com/project-slug: KazikKluz/aws-ec2-pulumi # Change the value to your github repo 
     backstage.io/techdocs-ref: dir:.
+    pulumi.com/project-slug: KazikKluz/aws-ec2/dev
   title: 'IA for Instance Automation' # you can give any title
   description: An example of a Instance Creation. # Change Description accordingly
 spec:
