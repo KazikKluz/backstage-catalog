@@ -85,7 +85,7 @@ spec:
       action: github:actions:dispatch
       input:
         workflowId:  ec2-instance.yaml # ID of GitHub action WorkFlow
-        repoUrl: 'github.com?repo=aws-ec2-pulumi&owner=KazikKluz'
+        repoUrl: 'https://github.com/KazikKluz/backstage-infrastructure/tree/master/aws-ec2-pulumi'
         branchOrTagName: 'master'
         workflowInputs:
           instanceName: ${{ parameters.InstanceName }}
