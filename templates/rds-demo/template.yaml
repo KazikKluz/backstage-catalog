@@ -46,7 +46,7 @@ spec:
             rows: 5
         InstanceStorage:
           title: Storage
-          type: number
+          type: string
           description: Storage size in GB
           minimum: 5
           maximum: 100
