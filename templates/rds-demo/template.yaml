@@ -19,7 +19,7 @@ spec:
          - Password    
          - InstanceEngine
       properties:
-        Engine:
+        InstanceEngine:
           title: Engine
           type: string
           description: Engine for the RDS Instance
@@ -44,7 +44,7 @@ spec:
           ui:autofocus: true
           ui:options:
             rows: 5
-        Storage:
+        InstanceStorage:
           title: Storage
           type: number
           description: Storage size in GB
