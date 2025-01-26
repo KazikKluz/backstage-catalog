@@ -14,10 +14,10 @@ spec:
          - InstanceName
          - Region
          - InstanceType
-         - Storage
+         - InstanceStorage
          - Username
          - Password    
-         - Engine
+         - InstanceEngine
       properties:
         Engine:
           title: Engine
