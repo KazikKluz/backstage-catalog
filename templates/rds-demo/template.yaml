@@ -1,0 +1,153 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: create-rds-instance
+  title: Create an RDS Instance
+  description: Create an Instance to deploy your application
+  tags: ['recommended']
+spec:
+  owner: user:KazikKluz
+  type: service
+  parameters:
+    - title: RDS Instance Creation
+      required:
+         - InstanceName
+         - Region
+         - InstanceType
+         - Storage
+         - Username
+         - Password    
+         - Engine
+      properties:
+        Engine:
+          title: Engine
+          type: string
+          description: Engine for the RDS Instance
+          ui:autofocus: true
+          ui:options:
+            rows: 5
+          enum:
+            - mysql
+            - postgresql
+            - mariadb
+        Username:
+          title: Username
+          type: string
+          description: Username for the RDS Instance
+          ui:autofocus: true
+          ui:options:
+            rows: 5
+        Password:
+          title: Password
+          type: string
+          description: Password for the RDS Instance
+          ui:autofocus: true
+          ui:options:
+            rows: 5
+        Storage:
+          title: Storage
+          type: number
+          description: Storage size in GB
+          minimum: 5
+          maximum: 100
+        InstanceName:
+          title: Instance Name.
+          type: string
+          description: Name of the Instnace to be created.
+          ui:autofocus: true
+          ui:options:
+            rows: 5
+        Region:
+          title:  AWS Region
+          type: string
+          description: Name of the region where you want to create your create-ec2-instance eg:- us-east-1, ap-south-1 etc.
+
+        InstanceType:
+          title: Type of Instance.
+          type: string
+          description: Type of the instance that you want to deploy, for eg:- t2.medium, t3.medium etc.
+          enum:
+            - db.t4g.micro
+            - db.t4g.small
+            - db.t4g.medium
+            - db.t4g.large
+            - db.t4g.xlarge
+            - db.t4g.2xlarge
+        action:
+          title: action
+          type: string
+          description: What action do you want to perform? Create or delete?
+          enum:
+            - apply
+            - destroy
+
+    - title: Choose a Repository Location
+      required:
+        - repoUrl
+      properties:
+        repoUrl:
+          title: Location of the repository
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+
+  steps:
+# Getting the all the files/details from the template
+    - id: fetch-base
+      name: Fetching Details from content folder
+      action: fetch:template
+      input:
+        url: ./content  # Location of the content directory where catlog-info.yaml file is present for the template
+        values:
+          name: ${{ parameters.InstanceName}}
+
+# Publish the content of the current working directory to our github directory
+    - id: publish
+      name: Publishing Details
+      action: publish:github
+      if: ${{ parameters.action == 'apply' }}
+      input:
+        allowedHosts: ['github.com']
+        description: This repo is to create an ec2 instance ${{ parameters.InstanceName }} using backstage.
+        repoUrl: ${{ parameters.repoUrl }}
+        repoVisibility: public # or 'internal' or 'private'
+        # defaultBranch: master
+
+# Triggering CI-CD to create resource in our case github action. 
+    - id: github-action
+      name: Starting GitHub action
+      action: github:actions:dispatch
+      input:
+        workflowId:  ec2-instance.yaml # ID of GitHub action WorkFlow
+        repoUrl: 'github.com?repo=aws-rds-pulumi&owner=KazikKluz'
+        branchOrTagName: 'main'
+        workflowInputs:
+          instanceEngine: ${{ parameters.Engine }}
+          instanceUsername: ${{ parameters.Username }}
+          instancePassword: ${{ parameters.Password }}
+          instanceStorage: ${{ parameters.Storage }}
+          instanceType: ${{ parameters.InstanceType }}
+          instanceName: ${{ parameters.InstanceName }}
+          awsRegion: ${{ parameters.Region }}
+          instanceType: ${{ parameters.InstanceType }}
+          action: ${{ parameters.action }}
+
+# Registering new component in the catalog of backstage.
+    - id: register
+      name: Registering the new Component 
+      action: catalog:register
+      if: ${{ parameters.action == 'apply' }}
+      input:
+        repoContentsUrl: ${{steps['publish'].output.repoContentsUrl }}
+        catalogInfoPath: '/component-info.yaml' # where the info of the catalog is stored.
+
+# Output links  are displayed to the user after the template execution.
+  output:
+    links:
+      - title: Repository
+        url: ${{ steps['publish'].output.remoteUrl }}
+      - title: Open in catalog
+        icon: catalog
+        entityRef: ${{ steps['register'].output.entityRef }}
