@@ -124,10 +124,10 @@ spec:
         repoUrl: 'github.com?repo=aws-rds-pulumi&owner=KazikKluz'
         branchOrTagName: 'main'
         workflowInputs:
-          instanceEngine: ${{ parameters.Engine }}
+          instanceEngine: ${{ parameters.InstanceEngine }}
           instanceUsername: ${{ parameters.Username }}
           instancePassword: ${{ parameters.Password }}
-          instanceStorage: ${{ parameters.Storage }}
+          instanceStorage: ${{ parameters.InstanceStorage }}
           instanceType: ${{ parameters.InstanceType }}
           instanceName: ${{ parameters.InstanceName }}
           awsRegion: ${{ parameters.Region }}
