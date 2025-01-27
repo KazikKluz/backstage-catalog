@@ -42,6 +42,7 @@ spec:
           title: Pulumi stack name
           type: string
           description: Pick and name of the project and stack within your organization (project/stack)
+          
         action:
           title: action
           type: string
