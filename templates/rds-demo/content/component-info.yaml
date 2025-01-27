@@ -3,9 +3,9 @@ kind: Component
 metadata:
   name: ${{ values.name | dump }}
   annotations:
-    github.com/project-slug: KazikKluz/aws-rds-pulumi 
+    github.com/project-slug: KazikKluz/backstage-infrastructure
     backstage.io/techdocs-ref: dir:.
-    pulumi.com/project-slug: KazikKluz/aws-rds/dev
+    pulumi.com/project-slug: KazikKluz/aws-rds-pulumi/dev
   title: 'Customized AWS RDS' 
   description: 'Provisions a customised RDS database on AWS' 
 spec:
