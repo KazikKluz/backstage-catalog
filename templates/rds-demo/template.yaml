@@ -18,6 +18,7 @@ spec:
          - Username
          - Password    
          - InstanceEngine
+         - Stack
       properties:
         InstanceEngine:
           title: Engine
@@ -73,6 +74,12 @@ spec:
             - db.t4g.large
             - db.t4g.xlarge
             - db.t4g.2xlarge
+            
+        Stack:
+          title: Pulumi stack name
+          type: string
+          description: Pick and name of the project and stack within your organization (project/stack)
+          
         action:
           title: action
           type: string
