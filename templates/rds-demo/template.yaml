@@ -126,6 +126,7 @@ spec:
     - id: publish
       name: Publishing Details
       action: publish:github
+      if: ${{ steps["github-action"].output.success }}
       if: ${{ parameters.action == 'apply' }}
       input:
         allowedHosts: ['github.com']
