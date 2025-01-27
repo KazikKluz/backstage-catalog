@@ -18,7 +18,6 @@ spec:
          - Username
          - Password    
          - InstanceEngine
-         - Stack
       properties:
         InstanceEngine:
           title: Engine
@@ -74,11 +73,6 @@ spec:
             - db.t4g.large
             - db.t4g.xlarge
             - db.t4g.2xlarge
-            
-        Stack:
-          title: Pulumi stack name
-          type: string
-          description: Pick and name of the project and stack within your organization (project/stack)
           
         action:
           title: action
@@ -139,7 +133,6 @@ spec:
           instanceName: ${{ parameters.InstanceName }}
           awsRegion: ${{ parameters.Region }}
           action: ${{ parameters.action }}
-          stack: KazikKluz/${{ parameters.stack }}
 
 # Registering new component in the catalog of backstage.
     - id: register
