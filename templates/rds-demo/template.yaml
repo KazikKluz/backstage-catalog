@@ -2,7 +2,7 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: create-rds-instance
-  title: Create an RDS Instance
+  title: AWS RDS Instance
   description: Create an Instance to deploy your application
   tags: ['recommended']
 spec:
