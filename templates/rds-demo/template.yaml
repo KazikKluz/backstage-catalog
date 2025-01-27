@@ -139,6 +139,7 @@ spec:
           instanceName: ${{ parameters.InstanceName }}
           awsRegion: ${{ parameters.Region }}
           action: ${{ parameters.action }}
+          stack: ${{ parameters.stack }}
 
 # Registering new component in the catalog of backstage.
     - id: register
