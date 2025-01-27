@@ -6,8 +6,8 @@ metadata:
     github.com/project-slug: KazikKluz/backstage-infrastructure
     backstage.io/techdocs-ref: dir:.
     pulumi.com/project-slug: KazikKluz/aws-ec2-pulumi/dev
-  title: 'IA for Instance Automation' # you can give any title
-  description: An example of a Instance Creation. # Change Description accordingly
+  title: 'Virtual Server on AWS'
+  description: Creates a server on AWS with a default key to be accessed remotely
 spec:
   type: service
   owner: user:KazikKluz
