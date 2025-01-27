@@ -13,7 +13,8 @@ spec:
       required:
          - InstanceName
          - Region
-         - InstanceType    
+         - InstanceType
+         - Stack
       properties:
         InstanceName:
           title: Instance Name.
@@ -37,6 +38,10 @@ spec:
             - t2.small
             - t2.micro
             - t3.medium
+        Stack:
+          title: Pulumi stack name
+          type: string
+          description: Pick and name of the project and stack within your organization (project/stack)
         action:
           title: action
           type: string
@@ -44,6 +49,7 @@ spec:
           enum:
             - apply
             - destroy
+        
 
     - title: Choose a Repository Location
       required:
