@@ -38,11 +38,6 @@ spec:
             - t2.small
             - t2.micro
             - t3.medium
-            
-        Stack:
-          title: Pulumi stack name
-          type: string
-          description: Pick and name of the project and stack within your organization (project/stack)
           
         action:
           title: action
@@ -100,7 +95,6 @@ spec:
           awsRegion: ${{ parameters.Region }}
           instanceType: ${{ parameters.InstanceType }}
           action: ${{ parameters.action }}
-          stack: KazikKluz/${{ parameters.Stack }}
 
 # Registering new component in the catalog of backstage.
     - id: register
