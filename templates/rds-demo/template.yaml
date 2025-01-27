@@ -16,9 +16,10 @@ spec:
          - InstanceType
          - InstanceStorage
          - Username
-         - Password    
+         - Password
          - InstanceEngine
          - Stack
+         - LocalIp 
       properties:
         InstanceEngine:
           title: Engine
@@ -79,6 +80,11 @@ spec:
           title: Pulumi stack name
           type: string
           description: Pick and name of the project and stack within your organization (project/stack)
+
+        LocalIp:
+          title: Local IP
+          type: string
+          description: Local IP address to allow access to the RDS instance
           
         action:
           title: action
@@ -138,6 +144,7 @@ spec:
           instanceType: ${{ parameters.InstanceType }}
           instanceName: ${{ parameters.InstanceName }}
           awsRegion: ${{ parameters.Region }}
+          localIp: ${{ parameters.LocalIp }}
           action: ${{ parameters.action }}
 
 # Registering new component in the catalog of backstage.
