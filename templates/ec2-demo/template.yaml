@@ -86,7 +86,7 @@ spec:
       input:
         workflowId:  ec2-instance.yaml # ID of GitHub action WorkFlow
         repoUrl: 'github.com?repo=backstage-infrastructure&owner=KazikKluz'
-        branchOrTagName: 'master'
+        branchOrTagName: 'main'
         workflowInputs:
           instanceName: ${{ parameters.InstanceName }}
           awsRegion: ${{ parameters.Region }}
