@@ -14,7 +14,6 @@ spec:
          - InstanceName
          - Region
          - InstanceType
-         - Stack
       properties:
         InstanceName:
           title: Instance Name.
@@ -38,11 +37,6 @@ spec:
             - t2.small
             - t2.micro
             - t3.medium
-            
-        Stack:
-          title: Pulumi stack name
-          type: string
-          description: Pick and name of the project and stack within your organization (project/stack)
           
         action:
           title: action
@@ -75,17 +69,6 @@ spec:
         values:
           name: ${{ parameters.InstanceName}}
 
-# Publish the content of the current working directory to our github directory
-    - id: publish
-      name: Publishing Details
-      action: publish:github
-      if: ${{ parameters.action == 'apply' }}
-      input:
-        allowedHosts: ['github.com']
-        description: This repo is to create an ec2 instance ${{ parameters.InstanceName }} using backstage.
-        repoUrl: ${{ parameters.repoUrl }}
-        repoVisibility: public # or 'internal' or 'private'
-        # defaultBranch: master
 
 # Triggering CI-CD to create resource in our case github action. 
     - id: github-action
@@ -100,6 +83,18 @@ spec:
           awsRegion: ${{ parameters.Region }}
           instanceType: ${{ parameters.InstanceType }}
           action: ${{ parameters.action }}
+
+# Publish the content of the current working directory to our github directory
+    - id: publish
+      name: Publishing Details
+      action: publish:github
+      if: ${{ parameters.action == 'apply' }}
+      input:
+        allowedHosts: ['github.com']
+        description: This repo is to create an ec2 instance ${{ parameters.InstanceName }} using backstage.
+        repoUrl: ${{ parameters.repoUrl }}
+        repoVisibility: public # or 'internal' or 'private'
+        # defaultBranch: master
 
 # Registering new component in the catalog of backstage.
     - id: register

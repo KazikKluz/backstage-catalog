@@ -116,18 +116,6 @@ spec:
         values:
           name: ${{ parameters.InstanceName}}
 
-# Publish the content of the current working directory to our github directory
-    - id: publish
-      name: Publishing Details
-      action: publish:github
-      if: ${{ parameters.action == 'apply' }}
-      input:
-        allowedHosts: ['github.com']
-        description: This repo is to create an ec2 instance ${{ parameters.InstanceName }} using backstage.
-        repoUrl: ${{ parameters.repoUrl }}
-        repoVisibility: public # or 'internal' or 'private'
-        # defaultBranch: master
-
 # Triggering CI-CD to create resource in our case github action. 
     - id: github-action
       name: Starting GitHub action
@@ -146,6 +134,18 @@ spec:
           awsRegion: ${{ parameters.Region }}
           localIp: ${{ parameters.LocalIp }}
           action: ${{ parameters.action }}
+
+# Publish the content of the current working directory to our github directory
+    - id: publish
+      name: Publishing Details
+      action: publish:github
+      if: ${{ parameters.action == 'apply' }}
+      input:
+        allowedHosts: ['github.com']
+        description: This repo is to create an RDS instance ${{ parameters.InstanceName }} using backstage.
+        repoUrl: ${{ parameters.repoUrl }}
+        repoVisibility: public # or 'internal' or 'private'
+        # defaultBranch: master
 
 # Registering new component in the catalog of backstage.
     - id: register
