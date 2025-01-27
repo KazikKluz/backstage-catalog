@@ -38,6 +38,7 @@ spec:
             - t2.small
             - t2.micro
             - t3.medium
+            
         Stack:
           title: Pulumi stack name
           type: string
