@@ -1,0 +1,14 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ${{ values.name | dump }}
+  annotations:
+    github.com/project-slug: KazikKluz/backstage-infrastructure
+    backstage.io/techdocs-ref: dir:.
+    pulumi.com/project-slug: KazikKluz/aws-eks-pulumi/dev
+  title: 'Customized EKS Cluster' 
+  description: 'Provisions a customised EKS cLuster on AWS' 
+spec:
+  type: service
+  owner: user:KazikKluz
+  lifecycle: experimental

@@ -1,0 +1,141 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: create-eks-cluster
+  title: AWS EKS Cluster
+  description: Create an EKS Cluster to deploy your application
+  tags: ['recommended']
+spec:
+  owner: user:KazikKluz
+  type: service
+  parameters:
+    - title: EKS Cluster Creation
+      required:
+         - ClusterName
+         - Region
+         - InstanceType
+         - DesiredCapacity
+         - MinSize
+         - MaxSize
+      properties:
+        ClusterName:
+          title: Cluster Name
+          type: string
+          description: Name of the EKS Cluster
+          ui:autofocus: true
+          ui:options:
+            rows: 5
+                Region:
+          title:  AWS Region
+          type: string
+          description: Name of the region where you want to create your cluster us-east-1, ap-south-1 etc.
+        InstanceType:
+          title: Type of Instance.
+          type: string
+          description: Type of the instances that you want to use, for eg:- t2.medium, t3.medium etc.
+          enum:
+            - t2.small
+            - t3.small
+            - t2.medium
+            - t3.medium
+            - t2.large
+            - t3.large
+            - t2.xlarge
+            - t3.xlarge
+            - t2.2xlarge
+        DesiredCapacity:
+          title: Desired Capacity
+          type: string
+          description: Number of instances you want to create in the cluster.
+          minimum: 1
+          maximum: 10
+        MinSize:
+          title: Minimum Size
+          type: string
+          description: Minimum number of instances you want to create in the cluster.
+          minimum: 1
+          maximum: 10
+        MaxSize:
+          title: Maximum Size
+          type: string
+          description: Maximum number of instances you want to create in the cluster.
+          minimum: 1
+          maximum: 10  
+        action:
+          title: action
+          type: string
+          description: What action do you want to perform? Create or delete?
+          enum:
+            - apply
+            - destroy
+
+    - title: Choose a Repository Location
+      required:
+        - repoUrl
+      properties:
+        repoUrl:
+          title: Location of the repository
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+
+  steps:
+# Getting the all the files/details from the template
+    - id: fetch-base
+      name: Fetching Details from content folder
+      action: fetch:template
+      input:
+        url: ./content  # Location of the content directory where catlog-info.yaml file is present for the template
+        values:
+          name: ${{ parameters.ClusterName}}
+
+# Triggering CI-CD to create resource in our case github action. 
+    - id: github-action
+      name: Starting GitHub action
+      action: github:actions:dispatch
+      input:
+        workflowId:  rds-instance.yaml # ID of GitHub action WorkFlow
+        repoUrl: 'github.com?repo=backstage-infrastructure&owner=KazikKluz'
+        branchOrTagName: 'main'
+        workflowInputs:
+          clusterName: ${{ parameters.ClusterName }}
+          desiredCapacity: ${{ parameters.DesiredCapacity }}
+          minSize: ${{ parameters.MinSize }}
+          maxSize: ${{ parameters.MaxSize }}
+          instanceType: ${{ parameters.InstanceType }}
+          instanceName: ${{ parameters.InstanceName }}
+          awsRegion: ${{ parameters.Region }}
+          action: ${{ parameters.action }}
+
+# Publish the content of the current working directory to our github directory
+    - id: publish
+      name: Publishing Details
+      action: publish:github
+      if: ${{ parameters.action == 'apply' }}
+      input:
+        allowedHosts: ['github.com']
+        description: This repo is to create an RDS instance ${{ parameters.InstanceName }} using backstage.
+        repoUrl: ${{ parameters.repoUrl }}
+        repoVisibility: public # or 'internal' or 'private'
+        # defaultBranch: master
+
+# Registering new component in the catalog of backstage.
+    - id: register
+      name: Registering the new Component 
+      action: catalog:register
+      if: ${{ parameters.action == 'apply' }}
+      input:
+        repoContentsUrl: ${{steps['publish'].output.repoContentsUrl }}
+        catalogInfoPath: '/component-info.yaml' # where the info of the catalog is stored.
+
+# Output links  are displayed to the user after the template execution.
+  output:
+    links:
+      - title: Repository
+        url: ${{ steps['publish'].output.remoteUrl }}
+      - title: Open in catalog
+        icon: catalog
+        entityRef: ${{ steps['register'].output.entityRef }}
+
