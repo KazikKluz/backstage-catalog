@@ -25,7 +25,7 @@ spec:
           ui:autofocus: true
           ui:options:
             rows: 5
-                Region:
+        Region:
           title:  AWS Region
           type: string
           description: Name of the region where you want to create your cluster us-east-1, ap-south-1 etc.
