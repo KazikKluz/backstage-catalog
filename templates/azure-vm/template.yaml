@@ -79,7 +79,7 @@ spec:
       name: Starting GitHub action
       action: github:actions:dispatch
       input:
-        workflowId:  azure-vm.yml
+        workflowId:  azure-vm.yaml
         repoUrl: 'github.com?repo=backstage-infrastructure&owner=KazikKluz'
         branchOrTagName: 'main'
         workflowInputs:
