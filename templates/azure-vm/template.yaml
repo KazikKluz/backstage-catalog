@@ -1,0 +1,116 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: create-azure-vm
+  title: Create an Azure VM
+  description: Create an Instance to deploy your application
+  tags: ['recommended']
+spec:
+  owner: user:KazikKluz
+  type: service
+  parameters:
+    - title: Azure VM Creation
+      required:
+         - InstanceName
+         - Location
+         - InstanceType
+         - ResourceGroup
+      properties:
+        InstanceName:
+          title: Instance Name.
+          type: string
+          description: Name of the Instnace to be created.
+          ui:autofocus: true
+          ui:options:
+            rows: 5
+
+        Location:
+          title:  Azure Region
+          type: string
+          description: Name of the region where you want to create your vm
+        InstanceType:
+          title: Type of Instance.
+          type: string
+          description: Type of the instance that you want to deploy, for eg:- Standard_B1s, Standard_B1ms etc.
+          enum:
+            - Standard_B1s
+            - Standard_B1ms
+            - Standard_B2s
+            - Standard_B2ms
+          
+        action:
+          title: action
+          type: string
+          description: What action do you want to perform? Create or delete?
+          enum:
+            - apply
+            - destroy
+        
+
+    - title: Choose a Repository Location
+      required:
+        - repoUrl
+      properties:
+        repoUrl:
+          title: Location of the repository
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+
+  steps:
+# Getting the all the files/details from the template
+    - id: fetch-base
+      name: Fetching Details from content folder
+      action: fetch:template
+      input:
+        url: ./content  # Location of the content directory where catlog-info.yaml file is present for the template
+        values:
+          name: ${{ parameters.InstanceName}}
+
+
+# Triggering CI-CD to create resource in our case github action. 
+    - id: github-action
+      name: Starting GitHub action
+      action: github:actions:dispatch
+      input:
+        workflowId:  azure-vm.yml
+        repoUrl: 'github.com?repo=backstage-infrastructure&owner=KazikKluz'
+        branchOrTagName: 'main'
+        workflowInputs:
+          instanceName: ${{ parameters.InstanceName }}
+          awsRegion: ${{ parameters.Region }}
+          instanceType: ${{ parameters.InstanceType }}
+          action: ${{ parameters.action }}
+
+# Publish the content of the current working directory to our github directory
+    - id: publish
+      name: Publishing Details
+      action: publish:github
+      if: ${{ parameters.action == 'apply' }}
+      input:
+        allowedHosts: ['github.com']
+        description: This repo is to create an ec2 instance ${{ parameters.InstanceName }} using backstage.
+        repoUrl: ${{ parameters.repoUrl }}
+        repoVisibility: public # or 'internal' or 'private'
+        # defaultBranch: master
+
+# Registering new component in the catalog of backstage.
+    - id: register
+      name: Registering the new Component 
+      action: catalog:register
+      if: ${{ parameters.action == 'apply' }}
+      input:
+        repoContentsUrl: ${{steps['publish'].output.repoContentsUrl }}
+        catalogInfoPath: '/component-info.yaml' # where the info of the catalog is stored.
+
+# Output links  are displayed to the user after the template execution.
+  output:
+    links:
+      - title: Repository
+        url: ${{ steps['publish'].output.remoteUrl }}
+      - title: Open in catalog
+        icon: catalog
+        entityRef: ${{ steps['register'].output.entityRef }}
+

@@ -1,0 +1,14 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ${{ values.name | dump }}
+  annotations:
+    github.com/project-slug: KazikKluz/backstage-infrastructure
+    backstage.io/techdocs-ref: dir:.
+    pulumi.com/project-slug: KazikKluz/azure-vm-pulumi/dev
+  title: 'Virtual Server on Azure'
+  description: Creates a server on AWS with a default key to be accessed remotely
+spec:
+  type: service
+  owner: user:KazikKluz
+  lifecycle: experimental
