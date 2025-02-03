@@ -84,9 +84,10 @@ spec:
         branchOrTagName: 'main'
         workflowInputs:
           instanceName: ${{ parameters.InstanceName }}
-          awsRegion: ${{ parameters.Region }}
+          instanceLocation: ${{ parameters.Location }}
           instanceType: ${{ parameters.InstanceType }}
           action: ${{ parameters.action }}
+          resourceGroup: ${{ parameters.ResourceGroup }}
 
 # Publish the content of the current working directory to our github directory
     - id: publish
