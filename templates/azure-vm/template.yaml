@@ -37,6 +37,10 @@ spec:
             - Standard_B1ms
             - Standard_B2s
             - Standard_B2ms
+        ResourceGroup:
+          title: Resource Group
+          type: string
+          description: Name of the resource group where you want to create your vm
           
         action:
           title: action
