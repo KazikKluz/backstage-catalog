@@ -3,7 +3,7 @@ kind: Template
 metadata:
   name: create-rds-instance
   title: AWS RDS Instance
-  description: Create an Instance to deploy your application
+  description: Creates an RDS instance in AWS
   tags: ['recommended']
 spec:
   owner: user:KazikKluz

@@ -36,13 +36,11 @@ spec:
     name: Deploy the infrastructure using Pulumi CLI
     action: pulumi:up
     input:
-      preRunCommands: ["cd ~", "cd app", "cd pulumi"]
       deployment: false
       name: "${{ parameters.component_id }}"
-      repoUrl: "https://github.com/KazikKluz/aws-ec2-pulumi/tree/master"
+      repoUrl: "https://github.com/KazikKluz/aws-rds-pulumi/tree/master"
       repoProjectPath: .
       organization: KazikKluz
       outputs:
-      - public_ip
       - public_dns
       stack: ${{ parameters.stack }}
