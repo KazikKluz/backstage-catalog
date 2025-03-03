@@ -103,7 +103,7 @@ spec:
       if: ${{ parameters.action == 'apply' }}
       input:
         repoContentsUrl: ${{steps['publish'].output.repoContentsUrl }}
-        catalogInfoPath: '/component-info.yaml' # where the info of the catalog is stored.
+        catalogInfoPath: '/catalog-info.yaml' # where the info of the catalog is stored.
 
 # Output links  are displayed to the user after the template execution.
   output:
