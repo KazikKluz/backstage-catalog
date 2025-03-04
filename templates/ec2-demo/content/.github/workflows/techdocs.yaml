@@ -32,8 +32,11 @@ jobs:
       - name: Install techdocs-cli
         run: npm install -g @techdocs/cli
       - name: Debug Repository Name
-        run: 
-          echo "Repo: ${{ github.event.repository.name }} | Context: ${{ toJson(github) }}"
+        run: |
+          echo "Repository name: ${{ github.event.repository.name }}"
+          echo "github.repository: ${{ github.repository }}"
+          echo "github.event_name: ${{ github.event_name }}"
+          echo "github.ref: ${{ github.ref }}"
       - name: Generate and Publish Docs
         run: |
           techdocs-cli generate --no-docker
