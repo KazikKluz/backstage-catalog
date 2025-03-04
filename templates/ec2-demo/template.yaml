@@ -84,53 +84,6 @@ spec:
           instanceType: ${{ parameters.InstanceType }}
           action: ${{ parameters.action }}
 
-    # - id: trigger-techdocs
-    #   name: Trigger TechDocs Workflow
-    #   action: github:workflow:dispatch
-    #   if: ${{ parameters.action == 'apply' }}
-    #   input:
-    #     repo: ${{ parameters.InstanceName }}
-    #     owner: KazikKluz  # Replace with your GitHub org
-    #     workflow: techdocs.yaml
-    #     ref: master
-    #     token: ${{ secrets.GITHUB_TOKEN }}
-    - id: create-workflow
-      name: Create TechDocs Workflow
-      action: file:write
-      if: ${{ parameters.action == 'apply' }}
-      input:
-        path: .github/workflows/techdocs.yaml
-        contents: |
-          name: Publish TechDocs
-          on:
-            push:
-              branches: [main]
-          permissions:
-            id-token: write
-            contents: read
-          jobs:
-            publish:
-              runs-on: ubuntu-latest
-              steps:
-              - uses: actions/checkout@v3
-              - uses: actions/setup-python@v4
-                with:
-                  python-version: '3.13'
-              - run: |
-                  python -m pip install --user mkdocs mkdocs-techdocs-core
-                  echo "$HOME/.local/bin" >> $GITHUB_PATH
-              - uses: actions/setup-node@v3
-                with:
-                  node-version: '20'
-              - run: npm install -g @techdocs/cli
-              - uses: aws-actions/configure-aws-credentials@v2
-                with:
-                  role-to-assume: arn:aws:iam::637423385007:role/BackstageTechDocsRole
-                  aws-region: eu-west-1
-              - run: |
-                  REPO_NAME="${{ parameters.InstanceName }}"
-                  techdocs-cli generate --no-docker
-                  techdocs-cli publish --publisher-type awsS3 --storage-name "techdocs-storage-ssad87f6asd" --entity "default/Component/$REPO_NAME"
       
     - id: publish
       name: Publishing Details
