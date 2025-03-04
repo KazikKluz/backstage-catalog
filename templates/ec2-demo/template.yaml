@@ -67,7 +67,7 @@ spec:
       input:
         url: ./content  # Location of the content directory where catlog-info.yaml file is present for the template
         values:
-          name: ${{ parameters.InstanceName}}
+          name: ${{ parameters.InstanceName }}
 
 
 # Triggering CI-CD to create resource in our case github action. 
