@@ -34,4 +34,4 @@ jobs:
       - name: Generate and Publish Docs
         run: |
           techdocs-cli generate --no-docker
-          techdocs-cli publish --publisher-type awsS3 --storage-name techdocs-storage-ssad87f6asd --entity default/Component/${{ github.event.repository.name }}
+          techdocs-cli publish --publisher-type awsS3 --storage-name techdocs-storage-ssad87f6asd --entity "default/Component/${{ github.event.repository.name }}"

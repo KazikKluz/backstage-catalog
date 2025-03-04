@@ -95,6 +95,7 @@ spec:
         repoUrl: ${{ parameters.repoUrl }}
         repoVisibility: public # or 'internal' or 'private'
         # defaultBranch: master
+      
 
 # Registering new component in the catalog of backstage.
     - id: register
