@@ -84,18 +84,6 @@ spec:
           instanceType: ${{ parameters.InstanceType }}
           action: ${{ parameters.action }}
 
-# Publish the content of the current working directory to our github directory
-    - id: publish
-      name: Publishing Details
-      action: publish:github
-      if: ${{ parameters.action == 'apply' }}
-      input:
-        allowedHosts: ['github.com']
-        description: This repo is to create an ec2 instance ${{ parameters.InstanceName }} using backstage.
-        repoUrl: ${{ parameters.repoUrl }}
-        repoVisibility: public # or 'internal' or 'private'
-        # defaultBranch: master
-
     # - id: trigger-techdocs
     #   name: Trigger TechDocs Workflow
     #   action: github:workflow:dispatch
@@ -144,7 +132,15 @@ spec:
                   techdocs-cli generate --no-docker
                   techdocs-cli publish --publisher-type awsS3 --storage-name "techdocs-storage-ssad87f6asd" --entity "default/Component/$REPO_NAME"
       
-
+    - id: publish
+      name: Publishing Details
+      action: publish:github
+      if: ${{ parameters.action == 'apply' }}
+      input:
+        allowedHosts: ['github.com']
+        description: This repo is to create an ec2 instance ${{ parameters.InstanceName }} using backstage.
+        repoUrl: ${{ parameters.repoUrl }}
+        repoVisibility: public # or 'internal' or 'private 
 # Registering new component in the catalog of backstage.
     - id: register
       name: Registering the new Component 
