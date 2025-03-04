@@ -34,7 +34,7 @@ jobs:
       - name: Debug Repository Name
         run: |
           echo "Repository name: ${{ github.event.repository.name }}"
-          echo "Full context: ${{ toJson(github) }}"
+          echo "Full context: $(echo '${{ toJson(github) }}')"
       - name: Generate and Publish Docs
         run: |
           techdocs-cli generate --no-docker
