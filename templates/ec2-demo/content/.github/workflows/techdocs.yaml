@@ -31,6 +31,10 @@ jobs:
       - run: aws sts get-caller-identity # Verify assumed role
       - name: Install techdocs-cli
         run: npm install -g @techdocs/cli
+      - name: Debug Repository Name
+        run: |
+          echo "Repository name: ${{ github.event.repository.name }}"
+          echo "Full context: ${{ toJson(github) }}"
       - name: Generate and Publish Docs
         run: |
           techdocs-cli generate --no-docker
