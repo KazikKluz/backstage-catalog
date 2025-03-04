@@ -1,0 +1,36 @@
+name: Publish TechDocs
+on:
+  push:
+    branches: [master]
+permissions:
+  id-token: write
+  contents: read
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.13'
+      - name: Install MkDocs and TechDocs dependencies
+        run: |
+          pip install mkdocs
+          pip install mkdocs-techdocs-core
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+      - uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::637423385007:role/BackstageTechDocsRole
+          aws-region: eu-west-1
+      - run: aws sts get-caller-identity # Verify assumed role
+      - name: Install techdocs-cli
+        run: npm install -g @techdocs/cli
+      - name: Generate and Publish Docs
+        run: |
+          REPO_NAME="{{ parameters.InstanceName }}"  
+          techdocs-cli generate --no-docker
+          techdocs-cli publish --publisher-type awsS3 --storage-name techdocs-storage-ssad87f6asd --entity "default/Component/$REPO_NAME" --site-dir site
