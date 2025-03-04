@@ -33,4 +33,4 @@ jobs:
         run: |
           REPO_NAME="{{ parameters.InstanceName }}"  
           techdocs-cli generate --no-docker
-          techdocs-cli publish --publisher-type awsS3 --storage-name techdocs-storage-ssad87f6asd --entity "default/Component/$REPO_NAME" --site-dir site
+          techdocs-cli publish --publisher-type awsS3 --storage-name techdocs-storage-ssad87f6asd --entity "default/Component/$REPO_NAME"
