@@ -95,6 +95,17 @@ spec:
         repoUrl: ${{ parameters.repoUrl }}
         repoVisibility: public # or 'internal' or 'private'
         # defaultBranch: master
+
+    # - id: trigger-techdocs
+    #   name: Trigger TechDocs Workflow
+    #   action: github:workflow:dispatch
+    #   if: ${{ parameters.action == 'apply' }}
+    #   input:
+    #     repo: ${{ parameters.InstanceName }}
+    #     owner: KazikKluz  # Replace with your GitHub org
+    #     workflow: techdocs.yaml
+    #     ref: master
+    #     token: ${{ secrets.GITHUB_TOKEN }}
       
 
 # Registering new component in the catalog of backstage.

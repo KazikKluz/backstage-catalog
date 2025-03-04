@@ -34,5 +34,6 @@ jobs:
         run: npm install -g @techdocs/cli
       - name: Generate and Publish Docs
         run: |
+          REPO_NAME=$(basename ${{ github.repository }})
           techdocs-cli generate --no-docker
-          techdocs-cli publish --publisher-type awsS3 --storage-name techdocs-storage-ssad87f6asd --entity "default/Component/${{ paremeters.instanceName }}"
+          techdocs-cli publish --publisher-type awsS3 --storage-name techdocs-storage-ssad87f6asd --entity "default/Component/$REPO_NAME"
