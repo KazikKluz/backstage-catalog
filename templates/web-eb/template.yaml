@@ -1,0 +1,149 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: deploy-web-app-eb
+  title: Deploy Web App on AWS Elastic Beanstalk
+  description: Deploy a containerized web application on AWS Elastic Beanstalk using Backstage.
+  tags: ['recommended']
+spec:
+  owner: user:KazikKluz
+  type: service 
+  parameters:
+    - title: Web App Deployment
+      required:
+        - AppName
+        - EnvironmentName
+        - DockerImage
+        - Region
+        - Port
+        - ASGMinSize
+        - ASGMaxSize
+      properties:
+        AppName:
+          title: Application Name
+          type: string
+          description: Name of the Elastic Beanstalk application to be created.
+          ui:autofocus: true
+          ui:options:
+            rows: 5
+        EnvironmentName:
+          title: Environment Name
+          type: string
+          description: Name of the Elastic Beanstalk environment to be created.
+          ui:autofocus: true
+          ui:options:
+            rows: 5
+        DockerImage:
+          title: Docker Image
+          type: string
+          description: Docker image to be used for the application, e.g., myapp:latest.
+          ui:autofocus: true
+          ui:options:
+            rows: 5
+        Region:
+          title: AWS Region
+          type: string
+          description: Name of the AWS region where you want to deploy the application, e.g., us-east-1, ap-south-1.
+          ui:autofocus: true
+          ui:options:
+            rows: 5       
+        Port:
+          title: Port
+          type: string
+          description: Port on which the application will run, e.g., 80, 443.
+          ui:autofocus: true
+          ui:options:
+            rows: 5
+        ASGMinSize:
+          title: Auto Scaling Group Minimum Size
+          type: integer
+          description: Minimum number of instances in the Auto Scaling group.
+          ui:autofocus: true
+          ui:options:
+            rows: 5
+        ASGMaxSize:
+          title: Auto Scaling Group Maximum Size
+          type: integer
+          description: Maximum number of instances in the Auto Scaling group.
+          ui:autofocus: true
+          ui:options:
+            rows: 5
+        
+        action:
+          title: Action
+          type: string
+          description: What action do you want to perform? Create or delete?
+          enum:
+            - apply
+            - destroy
+    
+    
+    - title: Choose a Repository Location
+      required:
+        - repoUrl
+      properties:
+        repoUrl:
+          title: Location of the repository
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+              - gitlab.com
+              - bitbucket.org
+            allowCustomUrl: true
+            allowEmptyUrl: true
+
+
+  steps:  
+    - id: fetch-base
+      name: Fetch Base Template
+      action: fetch:template
+      input:
+        url: ./content
+        values:
+          name: ${{ parameters.AppName }}
+
+    - id: github-action
+      name: Starting GitHub Action
+      action: github:actions:dispatch
+      input:
+        workflow: web-app-eb.yaml
+        repoUrl: 'github.com?repo=backstage-infrastructure&owner=KazikKluz'
+        branchOrTagName: main 
+        workflowInputs:
+          name: ${{ parameters.AppName }}
+          environmentName: ${{ parameters.EnvironmentName }}
+          dockerImage: ${{ parameters.DockerImage }}
+          region: ${{ parameters.Region }}
+          port: ${{ parameters.Port }}
+          asgMinSize: ${{ parameters.ASGMinSize }}
+          asgMaxSize: ${{ parameters.ASGMaxSize }}
+          actionType: ${{ parameters.action }}
+
+    - id: publish
+      name: Publish Details
+      action: publish:github
+      if: ${{ parameters.action == 'apply' }}
+      input:
+        allowedHost: ['github.com']
+        description: This repo is to create an Elastic Beanstalk application ${{ parameters.AppName }} using Backstage.
+        repoUrl: ${{ parameters.repoUrl }}
+        repoVisibility: public
+
+
+    - id: register
+      name: Registering the new Component 
+      action: catalog:register
+      if: ${{ parameters.action == 'apply' }}
+      input:
+        repoContentsUrl: ${{steps['publish'].output.repoContentsUrl }}
+        catalogInfoPath: '/catalog-info.yaml'
+
+  output:
+    links:
+      - title: Repository
+        url: ${{ steps['publish'].output.remoteUrl }}
+      - title: Open in catalog
+        icon: catalog
+        entityRef: ${{ steps['register'].output.entityRef }}

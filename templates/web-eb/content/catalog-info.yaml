@@ -1,0 +1,14 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ${{ values.name | dump }}
+  annotations:
+    github.com/project-slug: KazikKluz/backstage-infrastructure
+    backstage.io/techdocs-ref: dir:.
+    pulumi.com/project-slug: KazikKluz/website-eb/dev
+  title: 'Web Application on AWS Beanstalk'
+  description: Deploy a containerized web application on AWS Elastic Beanstalk using Backstage.
+spec:
+  type: deployment
+  owner: user:KazikKluz
+  lifecycle: experimental

@@ -1,0 +1,5 @@
+site_name: 'Web App on AWS Beanstalk Docs'
+nav:
+  - Home: index.md
+plugins:
+  - techdocs-core
