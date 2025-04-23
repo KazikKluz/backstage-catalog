@@ -119,7 +119,7 @@ spec:
           port: ${{ parameters.Port }}
           asgMinSize: ${{ parameters.ASGMinSize }}
           asgMaxSize: ${{ parameters.ASGMaxSize }}
-          actionType: ${{ parameters.action }}
+          action: ${{ parameters.action }}
 
     - id: publish
       name: Publish Details
