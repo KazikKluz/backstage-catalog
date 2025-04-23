@@ -56,14 +56,14 @@ spec:
             rows: 5
         ASGMinSize:
           title: Auto Scaling Group Minimum Size
-          type: integer
+          type: string
           description: Minimum number of instances in the Auto Scaling group.
           ui:autofocus: true
           ui:options:
             rows: 5
         ASGMaxSize:
           title: Auto Scaling Group Maximum Size
-          type: integer
+          type: string
           description: Maximum number of instances in the Auto Scaling group.
           ui:autofocus: true
           ui:options:
