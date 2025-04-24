@@ -9,6 +9,6 @@ metadata:
   title: 'Web Application on AWS Beanstalk'
   description: Deploy a containerized web application on AWS Elastic Beanstalk using Backstage.
 spec:
-  type: deployment
+  type: service
   owner: user:KazikKluz
   lifecycle: experimental
