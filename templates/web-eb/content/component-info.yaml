@@ -6,6 +6,7 @@ metadata:
     github.com/project-slug: KazikKluz/backstage-infrastructure
     backstage.io/techdocs-ref: dir:.
     pulumi.com/project-slug: KazikKluz/website-eb/dev
+    datadoghq.com/dashboard-url: https://p.datadoghq.eu/sb/158376e0-2074-11f0-a449-0aecf1c36fd9-c917efc4c668532b58ebc2b10868f6e4
   title: 'Web Application on AWS Beanstalk'
   description: Deploy a containerized web application on AWS Elastic Beanstalk using Backstage.
 spec:
