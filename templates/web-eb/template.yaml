@@ -138,7 +138,7 @@ spec:
       if: ${{ parameters.action == 'apply' }}
       input:
         repoContentsUrl: ${{steps['publish'].output.repoContentsUrl }}
-        catalogInfoPath: '/catalog-info.yaml'
+        catalogInfoPath: '/component-info.yaml'
 
   output:
     links:
